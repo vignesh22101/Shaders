@@ -17,7 +17,7 @@ public abstract class GraphCreator : MonoBehaviour
         HandleGraphCreation();
     }
 
-    private void HandleGraphCreation()
+    protected void HandleGraphCreation()
     {
         ClearAndRestart();
         CreateGraph();

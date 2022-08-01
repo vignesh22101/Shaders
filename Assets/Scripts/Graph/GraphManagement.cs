@@ -9,12 +9,12 @@ public class GraphManagement : GraphCreator
     public Slider wavesAmountSlider;
     public Slider heightSlider;
     public Button randomValuesButton;
+    // public Slider leftBoundarySlider, rightBoundarySlider;
     [SerializeField] int resolutionMin, resolutionMax;
     [SerializeField] float wavesAmountMin,wavesAmountMax;
     [SerializeField] float heightMin,heightMax;
-    // public Slider leftBoundarySlider, rightBoundarySlider;
 
-    private void Start()
+    private void Awake()
     {
         InitializeSliders();
     }

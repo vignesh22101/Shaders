@@ -685,8 +685,8 @@ MonoBehaviour:
   resolution: 100
   prefab: {fileID: 7836728203193210769, guid: 70e5df0af1e03fc4f89a9f08c30e1e94, type: 3}
   parent: {fileID: 0}
-  minPos: -1
-  maxPos: 1
+  minPos: -2
+  maxPos: 2
   prefabsList: []
   wavesMultiplier: 1
   heightMultiplier: 1
