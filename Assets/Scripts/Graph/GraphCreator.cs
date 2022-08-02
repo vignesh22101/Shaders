@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public abstract class GraphCreator : MonoBehaviour
 {
@@ -10,8 +9,8 @@ public abstract class GraphCreator : MonoBehaviour
     [SerializeField] Transform parent;
     [SerializeField] protected float minPos, maxPos;
     [SerializeField] List<GameObject> prefabsList = new List<GameObject>();
-    [SerializeField] protected float wavesMultiplier=1,heightMultiplier=1;
-
+    [SerializeField] protected float wavesMultiplier = 1, heightMultiplier = 1;
+    [SerializeField, Range(1, 2)] int function;
     private void Start()
     {
         HandleGraphCreation();
@@ -40,8 +39,8 @@ public abstract class GraphCreator : MonoBehaviour
             Vector3 position = Vector3.zero;
             Vector3 scale = ((maxPos - minPos) / resolution) * Vector3.one;
             instantiatedPrefab.transform.localScale = scale;
-            position.x = i*scale.x+(minPos);
-            position.y = Mathf.Sin(i/(resolution-1))*scale.y;
+            position.x = i * scale.x + (minPos);
+            position.y = Mathf.Sin(i / (resolution - 1)) * scale.y;
             instantiatedPrefab.transform.position = position;
             prefabsList.Add(instantiatedPrefab);
         }
@@ -53,9 +52,16 @@ public abstract class GraphCreator : MonoBehaviour
         {
             Transform prefab = prefabsList[i].transform;
             Vector3 newPos = prefab.position;
-            newPos.y = Mathf.Sin(wavesMultiplier*Mathf.PI*(newPos.x+Time.time))*heightMultiplier;
+            newPos.y = Function(newPos.x);
             prefab.position = newPos;
         }
+    }
+
+    private float Function(float x)
+    {
+        if (function == 1) return FunctionLibrary.Wave(x, Time.time);
+        else if (function == 2) return FunctionLibrary.MultiWave(x, Time.time);
+        return 0;
     }
 
 #if UNITY_EDITOR
@@ -63,6 +69,6 @@ public abstract class GraphCreator : MonoBehaviour
     {
         if (Application.isPlaying)
             HandleGraphCreation();
-    } 
+    }
 #endif
 }

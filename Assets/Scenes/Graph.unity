@@ -690,6 +690,7 @@ MonoBehaviour:
   prefabsList: []
   wavesMultiplier: 1
   heightMultiplier: 1
+  function: 1
   resolutionSlider: {fileID: 1778910355}
   wavesAmountSlider: {fileID: 663529256}
   heightSlider: {fileID: 1206006034}
