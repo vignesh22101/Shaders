@@ -648,6 +648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 523996270}
   - component: {fileID: 523996271}
+  - component: {fileID: 523996272}
   m_Layer: 0
   m_Name: GraphManagement
   m_TagString: Untagged
@@ -690,7 +691,7 @@ MonoBehaviour:
   prefabsList: []
   wavesMultiplier: 1
   heightMultiplier: 1
-  function: 1
+  functionName: 0
   resolutionSlider: {fileID: 1778910355}
   wavesAmountSlider: {fileID: 663529256}
   heightSlider: {fileID: 1206006034}
@@ -701,6 +702,20 @@ MonoBehaviour:
   wavesAmountMax: 5
   heightMin: 0.2
   heightMax: 2
+--- !u!114 &523996272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523996269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cab6000102d7c143b30698b47605f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeMultiplier: 0.5
+  applyValues: 1
 --- !u!1 &533739887
 GameObject:
   m_ObjectHideFlags: 0

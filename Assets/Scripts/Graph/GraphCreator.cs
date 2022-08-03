@@ -10,7 +10,7 @@ public abstract class GraphCreator : MonoBehaviour
     [SerializeField] protected float minPos, maxPos;
     [SerializeField] List<GameObject> prefabsList = new List<GameObject>();
     [SerializeField] protected float wavesMultiplier = 1, heightMultiplier = 1;
-    [SerializeField, Range(1, 2)] int function;
+    [SerializeField] FunctionLibrary.FunctionName functionName;
     private void Start()
     {
         HandleGraphCreation();
@@ -59,9 +59,8 @@ public abstract class GraphCreator : MonoBehaviour
 
     private float Function(float x)
     {
-        if (function == 1) return FunctionLibrary.Wave(x, Time.time);
-        else if (function == 2) return FunctionLibrary.MultiWave(x, Time.time);
-        return 0;
+        FunctionLibrary.Function function=FunctionLibrary.GetFunction(functionName);
+        return function(x,Time.time);
     }
 
 #if UNITY_EDITOR
