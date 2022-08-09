@@ -57,11 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Graph\GraphCreator.cs" />
+    <Compile Include="Assets\Scripts\FunctionLibraryHelper.cs" />
     <Compile Include="Assets\Scripts\CommonUtils\TimedDisabler.cs" />
     <Compile Include="Assets\Scripts\CommonUtils\SafeArea.cs" />
     <Compile Include="Assets\Scripts\FunctionLibrary.cs" />
     <Compile Include="Assets\Scripts\Graph\GraphManagement.cs" />
-    <Compile Include="Assets\Scripts\FunctionLibraryHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\PointBasedColor.shader" />

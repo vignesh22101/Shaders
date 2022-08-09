@@ -33,16 +33,20 @@ public abstract class GraphCreator : MonoBehaviour
 
     private void CreateGraph()
     {
-        for (int i = 0; i < resolution; i++)
+        for (int x = 0; x < resolution; x++)
         {
-            GameObject instantiatedPrefab = GameObject.Instantiate(prefab, parent);
-            Vector3 position = Vector3.zero;
-            Vector3 scale = ((maxPos - minPos) / resolution) * Vector3.one;
-            instantiatedPrefab.transform.localScale = scale;
-            position.x = i * scale.x + (minPos);
-            position.y = Mathf.Sin(i / (resolution - 1)) * scale.y;
-            instantiatedPrefab.transform.position = position;
-            prefabsList.Add(instantiatedPrefab);
+            for (int z = 0; z < resolution; z++)
+            {
+                GameObject instantiatedPrefab = GameObject.Instantiate(prefab, parent);
+                Vector3 position = Vector3.zero;
+                Vector3 scale = ((maxPos - minPos) / resolution) * Vector3.one;
+                instantiatedPrefab.transform.localScale = scale;
+                position.x = x * scale.x + (minPos);
+                position.z = z * scale.z + (minPos);
+                position.y = Mathf.Sin(x / (resolution - 1)) * scale.y;
+                instantiatedPrefab.transform.position = position;
+                prefabsList.Add(instantiatedPrefab);
+            }
         }
     }
 
@@ -52,15 +56,15 @@ public abstract class GraphCreator : MonoBehaviour
         {
             Transform prefab = prefabsList[i].transform;
             Vector3 newPos = prefab.position;
-            newPos.y = Function(newPos.x);
+            newPos.y = Function(newPos.x,newPos.z);
             prefab.position = newPos;
         }
     }
 
-    private float Function(float x)
+    private float Function(float x,float z)
     {
         FunctionLibrary.Function function=FunctionLibrary.GetFunction(functionName);
-        return function(x,Time.time);
+        return function(x,z,Time.time);
     }
 
 #if UNITY_EDITOR
