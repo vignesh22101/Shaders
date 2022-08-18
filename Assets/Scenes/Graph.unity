@@ -683,15 +683,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e90eb1910d413ba4a86338eb56291867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resolution: 100
+  resolution: 50
   prefab: {fileID: 7836728203193210769, guid: 70e5df0af1e03fc4f89a9f08c30e1e94, type: 3}
   parent: {fileID: 0}
-  minPos: -3
-  maxPos: 3
+  minPos: -1
+  maxPos: 1
   prefabsList: []
   wavesMultiplier: 1
   heightMultiplier: 1
-  functionName: 2
+  functionName: 3
   resolutionSlider: {fileID: 1778910355}
   wavesAmountSlider: {fileID: 663529256}
   heightSlider: {fileID: 1206006034}

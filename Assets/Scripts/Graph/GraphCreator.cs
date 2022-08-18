@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +43,7 @@ public abstract class GraphCreator : MonoBehaviour
                 position.x = x * scale.x + (minPos);
                 position.z = z * scale.z + (minPos);
                 position.y = Mathf.Sin(x / (resolution - 1)) * scale.y;
-                instantiatedPrefab.transform.position = position;
+                //instantiatedPrefab.transform.position = position;
                 prefabsList.Add(instantiatedPrefab);
             }
         }
@@ -52,19 +51,26 @@ public abstract class GraphCreator : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < prefabsList.Count; i++)
+        for (int i = 0, x = 0, z = 0; i < prefabsList.Count; i++, x++)
         {
+            if (x == resolution)
+            {
+                x = 0;
+                z += 1;
+            }
+
             Transform prefab = prefabsList[i].transform;
-            Vector3 newPos = prefab.position;
-            newPos.y = Function(newPos.x,newPos.z);
-            prefab.position = newPos;
+            Vector3 scale = ((maxPos - minPos) / resolution) * Vector3.one;
+            float u = x * scale.x + (minPos);
+            float v = z * scale.z + (minPos);
+            prefab.position = Function(u, v);
         }
     }
 
-    private float Function(float x,float z)
+    private Vector3 Function(float x, float z)
     {
-        FunctionLibrary.Function function=FunctionLibrary.GetFunction(functionName);
-        return function(x,z,Time.time);
+        FunctionLibrary.Function function = FunctionLibrary.GetFunction(functionName);
+        return function(x, z, Time.time);
     }
 
 #if UNITY_EDITOR
