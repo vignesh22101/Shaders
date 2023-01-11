@@ -10,6 +10,7 @@ public abstract class GraphCreator : MonoBehaviour
     [SerializeField] List<GameObject> prefabsList = new List<GameObject>();
     [SerializeField] protected float wavesMultiplier = 1, heightMultiplier = 1;
     [SerializeField] FunctionLibrary.FunctionName functionName;
+
     private void Start()
     {
         HandleGraphCreation();
