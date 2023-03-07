@@ -2,8 +2,9 @@
 
 public class GPUGraph : MonoBehaviour
 {
-    [SerializeField, Range(10, 200)]
-    int resolution = 10;
+    [SerializeField, Range(1, 2000)]
+    int resolution;
+    int previousResolution;
     [SerializeField] protected float minPos, maxPos;
 
     [SerializeField]
@@ -39,6 +40,11 @@ public class GPUGraph : MonoBehaviour
     private void OnEnable()
     {
         print($"OnEnable on GPUGraph 2");
+        HandlePositionBuffer();
+    }
+
+    private void HandlePositionBuffer()
+    {
         positionsBuffer = new ComputeBuffer(resolution * resolution, 4 * 3);
     }
 
@@ -50,6 +56,9 @@ public class GPUGraph : MonoBehaviour
 
     void UpdateFunctionOnGPU()
     {
+        if (previousResolution != resolution)
+            HandlePositionBuffer();
+
         float step = 2f / resolution;
         computeShader.SetInt(resolutionId, resolution);
         computeShader.SetFloat(stepId, step);
@@ -59,27 +68,29 @@ public class GPUGraph : MonoBehaviour
         computeShader.Dispatch(0, groups, groups, 1);
         material.SetBuffer(positionsId, positionsBuffer);
         material.SetFloat(stepId, step);
-        var bounds = new Bounds(Vector3.zero, Vector3.one * (2f + 2f / resolution));
+        var bounds = new Bounds(Vector3.zero, Vector3.one);
+        //print($"positionBufferCount:{positionsBuffer.count}");
         Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, positionsBuffer.count);
+        previousResolution = resolution;
     }
 
     void Update()
     {
-        for (int i = 0, x = 0, z = 0; i < resolution * resolution; i++, x++)
-        {
-            if (x == resolution)
-            {
-                x = 0;
-                z += 1;
-            }
+        /*  for (int i = 0, x = 0, z = 0; i < resolution * resolution; i++, x++)
+          {
+            *//*  if (x == resolution)
+              {
+                  x = 0;
+                  z += 1;
+              }
 
-            Transform prefab = transform;
-            Vector3 scale = ((maxPos - minPos) / resolution) * Vector3.one;
-            float u = x * scale.x + (minPos);
-            float v = z * scale.z + (minPos);
-            prefab.position = Function(u, v);
-        }
-
+              Transform prefab = transform;
+              Vector3 scale = ((maxPos - minPos) / resolution) * Vector3.one;
+              float u = x * scale.x + (minPos);
+              float v = z * scale.z + (minPos);
+              prefab.position = Function(u, v);*//*
+          }
+  */
         UpdateFunctionOnGPU();
     }
 
