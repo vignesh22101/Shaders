@@ -16,32 +16,32 @@ public class Fractal : MonoBehaviour
 
     struct FractalPart
     {
-        public Vector3 position;
+        public Vector3 direction;
         public Quaternion rotation;
         public Transform transform;
     }
-    FractalPart[][] fractalParts;
+    FractalPart[][] parts;
 
     private void Awake()
     {
-        fractalParts = new FractalPart[depth][];
+        parts = new FractalPart[depth][];
 
-        for (int i = 0, length = 1; i < fractalParts.Length; i++, length *= 5)
+        for (int i = 0, length = 1; i < parts.Length; i++, length *= 5)
         {
-            fractalParts[i] = new FractalPart[length];
+            parts[i] = new FractalPart[length];
         }
 
         float scale = 1f;
-        fractalParts[0][0] = CreatePart(0, 0, scale);
+        parts[0][0] = CreatePart(0, 0, scale);
         for (int li = 1; li < depth; li++)
         {
-            FractalPart[] fractalPart = fractalParts[li];
-
-            for (int fpi = 0; fpi < fractalPart.Length; fpi++, scale *= 0.5f, fpi += 5)
+            FractalPart[] levelParts = parts[li];
+            scale *= 0.5f;
+            for (int fpi = 0; fpi < levelParts.Length; fpi += 5)
             {
                 for (int ci = 0; ci < 5; ci++)
                 {
-                    fractalPart[fpi + ci] = CreatePart(li, ci, scale);
+                    levelParts[fpi + ci] = CreatePart(li, ci, scale);
                 }
             }
         }
@@ -54,6 +54,37 @@ public class Fractal : MonoBehaviour
         fractal.transform.localScale = Vector3.one * localScale;
         fractal.AddComponent<MeshFilter>().mesh = mesh;
         fractal.AddComponent<MeshRenderer>().material = material;
-        return new FractalPart { position = directions[childIndex], rotation = rotations[childIndex], transform = fractal.transform };
+        return new FractalPart { direction = directions[childIndex], rotation = rotations[childIndex], transform = fractal.transform };
+    }
+
+    private void Update()
+    {
+        Quaternion deltaRotation = Quaternion.Euler(0f, 22.5f * Time.deltaTime, 0f);
+        FractalPart rootPart = parts[0][0];
+        rootPart.rotation *= deltaRotation;
+        rootPart.transform.localRotation = rootPart.rotation;
+        parts[0][0] = rootPart;
+
+        for (int li = 1; li < parts.Length; li++)
+        {
+            FractalPart[] levelParts = parts[li];
+            FractalPart[] parentParts = parts[li - 1];
+            //print($"LevelParts,{levelParts.Length}");
+            for (int fpi = 0; fpi < levelParts.Length; fpi++)
+            {
+                Transform parentTransform = parentParts[fpi / 5].transform;
+                FractalPart part = levelParts[fpi];
+                Debug.Log($"ParentTransform, {li}_{fpi % 5}", parentTransform.gameObject);
+                part.rotation *= deltaRotation;
+
+                part.transform.localRotation = parentTransform.localRotation * part.rotation;
+                part.transform.localPosition =
+                     parentTransform.localPosition +
+                     parentTransform.localRotation *
+                         (1.5f * part.transform.localScale.x * part.direction);
+                //part.transform.localPosition = parentTransform.localPosition + (part.direction * (part.transform.localScale.x / 2 + parentTransform.localScale.x / 2));
+                levelParts[fpi] = part;
+            }
+        }
     }
 }
