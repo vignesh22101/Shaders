@@ -11,6 +11,7 @@ Shader "CustomShaders/Point Surface GPU"
 		#pragma surface ConfigureSurfacePoint Standard fullforwardshadows addshadow
 		#pragma target 4.5
 		#pragma instancing_options assumeuniformscaling procedural:ConfigureProcedural
+		#include "PointGPU.hlsl"
 
 		struct Input{
 			float3 worldPos;
